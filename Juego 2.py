@@ -28,13 +28,13 @@ class Pajarito:
                 pygame.quit()
         
     def move(self):
-        self.vsp = self.vsp+self.grv
-        self.y += self.vsp
+        self.vel = self.vel+self.grv
+        self.y = self.y+self.vel
         self.jugador.y = self.y
 
     
     def jump(self):
-        self.vsp = -self.salvel
+        self.vel = -self.salvel
         
  
                 
@@ -72,7 +72,7 @@ game_resumed = False
 
 while True:
     reloj.tick(60)
-    ventana.fill((0, 0, 0))
+    ventana.fill((31, 176, 202))
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
