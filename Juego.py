@@ -1,5 +1,6 @@
 import pygame
-import random 
+from random import random
+
 
 pygame.init()
 win_w = 1280
@@ -24,6 +25,16 @@ class Bird:
         self.vel = self.vel + self.grv
         self.body.y = self.y
     
+    def checkfordeath(self, obstacles):
+        for obstacle in obstacles:
+            if bird.body.colliderect(obstacle) or pygame.Rect(
+            obstacle.x,
+            obstacle.y-win_h*1.25,
+            obstacle.width,
+            obstacle.height
+            ):
+                pygame.quit()
+    
 class ObstaclesManager:
     def __init__(self):
         self.obstacles_list = []
@@ -38,14 +49,14 @@ class ObstaclesManager:
             self.obstacles_list.append(
                 pygame.rect(
                     win_w,
-                    random.randint(win_h*0.25, win_h*0.8),
+                    random.random.randint(win_h*0.25, win_h*0.8),
                     win_w*0.01,
                     win_h
                 )
             )
 
     
-    def scrollscreen(self):
+    def scrollscene(self):
         for obstacle in self.obstacles_list:
             obstacle.x = obstacle.x-(win_w*0.0025)
             if obstacle.x < 0 - obstacle.width:
@@ -53,6 +64,8 @@ class ObstaclesManager:
 
 manager = ObstaclesManager()
 bird = Bird()
+
+game_resumed = False
 
 while True:
     clock.tick(60)
@@ -64,11 +77,13 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 bird.jump()
+                game_resumed = True
     
     
     manager.generateobstacles()
-    manager.scrollscreen()
+    manager.scrollscene()
     bird.move()
+    bird.checkfordeath(obstacles=manager.obstacles_list)
 
     pygame.draw.rect(win, (255, 255, 255), bird.body)
     for obstacle in manager.obstacles_list:
