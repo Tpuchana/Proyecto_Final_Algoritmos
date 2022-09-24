@@ -16,7 +16,15 @@ class Pajarito:
         self.grv = ven_h*0.00069
         self.jugador = pygame.Rect(self.x, self.y, ven_h*0.04, ven_h*0.04)
 
+    def move(self):
+        self.vel = self.vel+self.grv
+        self.y = self.y+self.vel
+        self.jugador.y = self.y
 
+    
+    def jump(self):
+        self.vel = -self.salvel
+    
     def checkfordeath(self, obstacles):
         for obstacle in obstacles:
             if pajaro.jugador.colliderect(obstacle) or pajaro.jugador.colliderect(pygame.Rect(
@@ -26,15 +34,6 @@ class Pajarito:
                 obstacle.height
             )):
                 pygame.quit()
-        
-    def move(self):
-        self.vel = self.vel+self.grv
-        self.y = self.y+self.vel
-        self.jugador.y = self.y
-
-    
-    def jump(self):
-        self.vel = -self.salvel
         
  
                 
